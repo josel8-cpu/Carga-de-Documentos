@@ -563,7 +563,7 @@
                             </div>
                             <div class="field span-2">
                                 <label>Tipo de Documento</label>
-                                <select id="tipoGarantia" class="select">
+                                <select id="tipoDocumento" class="select">
                                     <option value="">SELECCIONAR</option>
                                     <option value="FACTURA">FACTURA</option>
                                     <option value="TESTIMONIO NOTARIAL">TESTIMONIO NOTARIAL</option>
@@ -1014,6 +1014,216 @@
                     </div>
                 </section>
 
+                <!-- ======== VISTA: LIBERACIONES POR CARGAR (KIT LEGAL) ======== -->
+                <section class="card" id="liberaciones" hidden>
+                    <div class="card-header">
+                        <h2><span class="card-icon"></span> Liberaciones por Cargar</h2>
+                    </div>
+                    <div class="card-body liberaciones-body">
+                        <!-- Columna izquierda -->
+                        <div class="liberaciones-izquierda">
+                            <button class="btn-kit" onclick="mostrarListaKit()">Generar Kit Legal</button>
+                            <button class="btn-kit" onclick="mostrarCargaKit()">Carga de Documentos Kit Legal</button>
+                        </div>
+                        <!-- Columna derecha: contenido dinámico -->
+                        <div class="liberaciones-derecha">
+                            <!-- Contenedor para la lista de documentos (visible por defecto) -->
+                            <div id="kitListaContainer">
+                                <div class="kit-header">
+                                    <h3>Paquete de Documentos del Kit Legal y Complementarios</h3>
+                                    <button class="btn-zip" onclick="descargarZipCompleto()">📥 Descargar ZIP completo</button>
+                                </div>
+                                <div class="kit-lista">
+                                    <!-- 11 documentos con ver y descargar -->
+                                    <div class="kit-item"><span>Pagare</span><div><button class="btn-ver" onclick="verDocumentoKit('Pagare')">Ver</button><button class="btn-descargar" onclick="descargarDocumentoKit('Pagare')">Descargar</button></div></div>
+                                    <div class="kit-item"><span>Tabla de amortización</span><div><button class="btn-ver" onclick="verDocumentoKit('Tabla de amortización')">Ver</button><button class="btn-descargar" onclick="descargarDocumentoKit('Tabla de amortización')">Descargar</button></div></div>
+                                    <div class="kit-item"><span>Contrato</span><div><button class="btn-ver" onclick="verDocumentoKit('Contrato')">Ver</button><button class="btn-descargar" onclick="descargarDocumentoKit('Contrato')">Descargar</button></div></div>
+                                    <div class="kit-item"><span>Caratula</span><div><button class="btn-ver" onclick="verDocumentoKit('Caratula')">Ver</button><button class="btn-descargar" onclick="descargarDocumentoKit('Caratula')">Descargar</button></div></div>
+                                    <div class="kit-item"><span>Presentación</span><div><button class="btn-ver" onclick="verDocumentoKit('Presentación')">Ver</button><button class="btn-descargar" onclick="descargarDocumentoKit('Presentación')">Descargar</button></div></div>
+                                    <div class="kit-item"><span>Aclaración firmas por inconsistencias</span><div><button class="btn-ver" onclick="verDocumentoKit('Aclaración firmas por inconsistencias')">Ver</button><button class="btn-descargar" onclick="descargarDocumentoKit('Aclaración firmas por inconsistencias')">Descargar</button></div></div>
+                                    <div class="kit-item"><span>Resguardo de llaves</span><div><button class="btn-ver" onclick="verDocumentoKit('Resguardo de llaves')">Ver</button><button class="btn-descargar" onclick="descargarDocumentoKit('Resguardo de llaves')">Descargar</button></div></div>
+                                    <div class="kit-item"><span>Acta de supervisión</span><div><button class="btn-ver" onclick="verDocumentoKit('Acta de supervisión')">Ver</button><button class="btn-descargar" onclick="descargarDocumentoKit('Acta de supervisión')">Descargar</button></div></div>
+                                    <div class="kit-item"><span>Reporte fotográfico</span><div><button class="btn-ver" onclick="verDocumentoKit('Reporte fotográfico')">Ver</button><button class="btn-descargar" onclick="descargarDocumentoKit('Reporte fotográfico')">Descargar</button></div></div>
+                                    <div class="kit-item"><span>Aceptación de endoso</span><div><button class="btn-ver" onclick="verDocumentoKit('Aceptación de endoso')">Ver</button><button class="btn-descargar" onclick="descargarDocumentoKit('Aceptación de endoso')">Descargar</button></div></div>
+                                    <div class="kit-item"><span>Complementarios al kit legal</span><div><button class="btn-ver" onclick="verDocumentoKit('Complementarios al kit legal')">Ver</button><button class="btn-descargar" onclick="descargarDocumentoKit('Complementarios al kit legal')">Descargar</button></div></div>
+                                </div>
+                            </div>
+
+                            <!-- Contenedor para la tabla de carga de documentos (oculto por defecto) -->
+                            <div id="kitCargaContainer" style="display: none;">
+                                <div class="kit-header">
+                                    <h3>Carga de Documentos del Kit Legal</h3>
+                                </div>
+                                <!-- Tabla principal: 10 documentos del kit -->
+                                <div class="doc-table-wrap" style="margin-top: 10px;">
+                                    <table class="doc-table kit-carga-table" id="tablaCargaKit">
+                                        <thead>
+                                            <tr>
+                                                <th>Documento</th>
+                                                <th style="min-width:80px;">Subir</th>
+                                                <th style="min-width:60px;">Ver</th>
+                                                <th style="min-width:80px;">Validar</th>
+                                                <th style="min-width:140px;">Comentario</th>
+                                                <th style="min-width:80px;">Histórico</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="kitCargaBody">
+                                            <!-- Filas generadas por JS -->
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <!-- Complementarios Kit Legal -->
+                                <h4 style="margin-top: 30px;">Complementarios Kit Legal</h4>
+                                <div class="doc-table-wrap">
+                                    <table class="doc-table kit-carga-table" id="tablaComplementarios">
+                                        <thead>
+                                            <tr>
+                                                <th>Documento</th>
+                                                <th style="min-width:80px;">Subir</th>
+                                                <th style="min-width:60px;">Ver</th>
+                                                <th style="min-width:80px;">Validar</th>
+                                                <th style="min-width:140px;">Comentario</th>
+                                                <th style="min-width:80px;">Histórico</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="complementariosBody"></tbody>
+                                    </table>
+                                </div>
+
+                                <!-- Documentos Acreditado -->
+                                <h4 style="margin-top: 30px;">Documentos Acreditado</h4>
+                                <div class="doc-table-wrap">
+                                    <table class="doc-table kit-carga-table" id="tablaAcreditado">
+                                        <thead>
+                                            <tr>
+                                                <th>Documento</th>
+                                                <th style="min-width:80px;">Subir</th>
+                                                <th style="min-width:60px;">Ver</th>
+                                                <th style="min-width:80px;">Validar</th>
+                                                <th style="min-width:140px;">Comentario</th>
+                                                <th style="min-width:80px;">Histórico</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="acreditadoBody"></tbody>
+                                    </table>
+                                </div>
+
+                                <!-- Documentos Aval -->
+                                <h4 style="margin-top: 30px;">Documentos Aval</h4>
+                                <div class="doc-table-wrap">
+                                    <table class="doc-table kit-carga-table" id="tablaAval">
+                                        <thead>
+                                            <tr>
+                                                <th>Documento</th>
+                                                <th style="min-width:80px;">Subir</th>
+                                                <th style="min-width:60px;">Ver</th>
+                                                <th style="min-width:80px;">Validar</th>
+                                                <th style="min-width:140px;">Comentario</th>
+                                                <th style="min-width:80px;">Histórico</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="avalBody"></tbody>
+                                    </table>
+                                </div>
+
+                                <!-- Video Desembolso -->
+                                <h4 style="margin-top: 30px;">Video Desembolso</h4>
+                                <div class="doc-table-wrap">
+                                    <table class="doc-table kit-carga-table" id="tablaVideo">
+                                        <thead>
+                                            <tr>
+                                                <th>Documento</th>
+                                                <th style="min-width:80px;">Subir</th>
+                                                <th style="min-width:60px;">Ver</th>
+                                                <th style="min-width:80px;">Validar</th>
+                                                <th style="min-width:140px;">Comentario</th>
+                                                <th style="min-width:80px;">Histórico</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="videoBody"></tbody>
+                                    </table>
+                                </div>
+
+                                <!-- Documentos Garantía -->
+                                <h4 style="margin-top: 30px;">Documentos Garantía</h4>
+                                <div class="doc-table-wrap">
+                                    <table class="doc-table kit-carga-table" id="tablaGarantia">
+                                        <thead>
+                                            <tr>
+                                                <th>Documento</th>
+                                                <th style="min-width:80px;">Subir</th>
+                                                <th style="min-width:60px;">Ver</th>
+                                                <th style="min-width:80px;">Validar</th>
+                                                <th style="min-width:140px;">Comentario</th>
+                                                <th style="min-width:80px;">Histórico</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="garantiaBody"></tbody>
+                                    </table>
+                                </div>
+
+                                <div class="actions-row" style="margin-top: 20px;">
+                                    <button class="btn-save" onclick="guardarCargaKit()">Guardar Carga</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ======== VISTA: SOLICITUD DE LIBERACIÓN ======== -->
+                <section class="card" id="solicitudLiberacion" hidden>
+                    <div class="card-header">
+                        <h2><span class="card-icon"></span> Solicitud de Liberación</h2>
+                    </div>
+                    <div class="card-body solicitud-body">
+                        <div class="solicitud-izquierda">
+                            <div class="resumen-item">
+                                <span class="resumen-label">Solicitados</span>
+                                <span class="resumen-numero" id="countSolicitado">0</span>
+                            </div>
+                            <div class="resumen-item">
+                                <span class="resumen-label">Liberados</span>
+                                <span class="resumen-numero" id="countLiberado">0</span>
+                            </div>
+                            <div class="resumen-item">
+                                <span class="resumen-label">Observados</span>
+                                <span class="resumen-numero" id="countObservado">0</span>
+                            </div>
+                            <div class="resumen-item">
+                                <span class="resumen-label">Por revisar</span>
+                                <span class="resumen-numero" id="countPorRevisar">0</span>
+                            </div>
+                        </div>
+                        <div class="solicitud-derecha">
+                            <div class="kit-header">
+                                <h3>Documentos para Liberación</h3>
+                            </div>
+                            <div class="doc-table-wrap" style="margin-top: 10px;">
+                                <table class="doc-table solicitud-table" id="tablaSolicitud">
+                                    <thead>
+                                        <tr>
+                                            <th style="min-width:140px;">Documento</th>
+                                            <th style="min-width:60px;">Ver</th>
+                                            <th style="min-width:80px;">Validar</th>
+                                            <th style="min-width:120px;">Estado</th>
+                                            <th style="min-width:180px;">Observaciones</th>
+                                            <th style="min-width:100px;">Foto</th>
+                                            <th style="min-width:140px;">Comentario</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="solicitudBody">
+                                        <!-- Filas generadas por JS -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="actions-row" style="margin-top: 20px;">
+                                <button class="btn-save" onclick="guardarSolicitud()">Guardar Cambios</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
             </main>
 
             <!-- ===== STAGE SIDEBAR ===== -->
@@ -1022,9 +1232,10 @@
                 <button class="stage-btn" id="btnCargaDocumentos" onclick="cambiarVista('Carga de Documentos')">Carga de
                     Documentos</button>
                 <button class="stage-btn" onclick="cambiarVista('Aplicación de Pagos')">Aplicación de Pagos</button>
-                <!-- NUEVO BOTÓN -->
                 <button class="stage-btn" id="btnRegistroGarantia"
                     onclick="cambiarVista('Registro de Garantía y Otros')">Registro de Garantía y Otros</button>
+                <button class="stage-btn" onclick="cambiarVista('Liberaciones por Cargar')">Kit Legal</button>
+                <button class="stage-btn" onclick="cambiarVista('Solicitud de Liberación')">Liberación</button>
             </aside>
 
         </div>
@@ -1052,8 +1263,7 @@
                         <label>2. Monto autorizado por Comité</label>
                         <div class="modal-input-wrapper">
                             <span class="modal-currency-symbol">$</span>
-                            <span class="modal-text-display" id="montoAplicado"
-                                style="font-weight: 600; font-size: 16px; padding: 8px 0; display: inline-block;">3,300.00</span>
+                            <span class="modal-text-display" id="montoAplicado" style="font-weight:600;font-size:16px;padding:8px 0;display:inline-block;">3,300.00</span>
                         </div>
                     </div>
                     <div class="modal-pregunta">
@@ -1076,13 +1286,13 @@
                     <div class="modal-pregunta">
                         <label>6. Cuenta Receptora</label>
                         <select class="modal-select" id="cuentaReceptora">
-                            <option value="">Seleccione (desplegables de ejemplo)...</option>
-                            <option value="bbva_001">BBVA - Folio: CTA-001</option>
-                            <option value="banorte_002">Banorte - Folio: CTA-002</option>
-                            <option value="santander_003">Santander - Folio: CTA-003</option>
-                            <option value="banamex_004">Banamex - Folio: CTA-004</option>
-                            <option value="hsbc_005">HSBC - Folio: CTA-005</option>
-                            <option value="scotiabank_006">Scotiabank - Folio: CTA-006</option>
+                            <option value="">Seleccione...</option>
+                            <option value="bbva_001">BBVA - CTA-001</option>
+                            <option value="banorte_002">Banorte - CTA-002</option>
+                            <option value="santander_003">Santander - CTA-003</option>
+                            <option value="banamex_004">Banamex - CTA-004</option>
+                            <option value="hsbc_005">HSBC - CTA-005</option>
+                            <option value="scotiabank_006">Scotiabank - CTA-006</option>
                             <option value="otros">Otros</option>
                         </select>
                     </div>
@@ -1119,7 +1329,7 @@
                     <div class="modal-pregunta">
                         <label>2. Motivo de cancelación</label>
                         <select class="modal-select" id="motivoCancelacion">
-                            <option value="">Seleccione un motivo...</option>
+                            <option value="">Seleccione...</option>
                             <option value="pago_duplicado">Pago duplicado</option>
                             <option value="error_monto">Error en el monto</option>
                             <option value="error_cliente">Error en datos del cliente</option>
@@ -1138,15 +1348,13 @@
                     </div>
                     <div class="modal-pregunta">
                         <label>5. Comentarios adicionales</label>
-                        <textarea class="modal-textarea" id="comentariosCancelacion"
-                            placeholder="Comentarios..."></textarea>
+                        <textarea class="modal-textarea" id="comentariosCancelacion" placeholder="Comentarios..."></textarea>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <button class="modal-btn modal-btn-cancel" onclick="cerrarModalCancelarPago()">Cancelar</button>
-                <button class="modal-btn modal-btn-confirm" onclick="confirmarCancelarPago()">Confirmar
-                    Cancelación</button>
+                <button class="modal-btn modal-btn-confirm" onclick="confirmarCancelarPago()">Confirmar Cancelación</button>
             </div>
         </div>
     </div>
