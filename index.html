@@ -1183,45 +1183,82 @@
                 <section class="card" id="solicitudLiberacion" hidden>
                     <div class="card-header">
                         <h2><span class="card-icon"></span> Solicitud de Liberación</h2>
+                        <button class="pill pill-primary" onclick="toggleSolicitudesGenerales()">Solicitudes de Liberaciones</button>
                     </div>
-                    <div class="card-body solicitud-body">
-                        <!-- <div class="solicitud-izquierda">
-                            <div class="resumen-item">
-                                <span class="resumen-label">Solicitados</span>
-                                <span class="resumen-numero" id="countSolicitado">0</span>
+                    <div class="card-body">
+                        <!-- Contenedor de documentos (visible por defecto) -->
+                        <div id="solicitudDocumentosContainer">
+                            <div class="solicitud-body">
+                                <div class="solicitud-izquierda">
+                                    <div class="resumen-item">
+                                        <span class="resumen-label">Solicitados</span>
+                                        <span class="resumen-numero" id="countSolicitado">0</span>
+                                    </div>
+                                    <div class="resumen-item">
+                                        <span class="resumen-label">Liberados</span>
+                                        <span class="resumen-numero" id="countLiberado">0</span>
+                                    </div>
+                                    <div class="resumen-item">
+                                        <span class="resumen-label">Observados</span>
+                                        <span class="resumen-numero" id="countObservado">0</span>
+                                    </div>
+                                    <div class="resumen-item">
+                                        <span class="resumen-label">Por revisar</span>
+                                        <span class="resumen-numero" id="countPorRevisar">0</span>
+                                    </div>
+                                </div>
+                                <div class="solicitud-derecha">
+                                    <div class="kit-header">
+                                        <h3>Documentos para Liberación</h3>
+                                    </div>
+                                    <div class="doc-table-wrap" style="margin-top: 10px;">
+                                        <table class="doc-table solicitud-table" id="tablaSolicitud">
+                                            <thead>
+                                                <tr>
+                                                    <th style="min-width:140px;">Documento</th>
+                                                    <th style="min-width:60px;">Ver</th>
+                                                    <th style="min-width:80px;">Validar</th>
+                                                    <th style="min-width:120px;">Estado</th>
+                                                    <th style="min-width:180px;">Observaciones</th>
+                                                    <th style="min-width:100px;">Foto</th>
+                                                    <th style="min-width:140px;">Comentario</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="solicitudBody">
+                                                <!-- Filas generadas por JS -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="resumen-item">
-                                <span class="resumen-label">Liberados</span>
-                                <span class="resumen-numero" id="countLiberado">0</span>
-                            </div>
-                            <div class="resumen-item">
-                                <span class="resumen-label">Observados</span>
-                                <span class="resumen-numero" id="countObservado">0</span>
-                            </div>
-                            <div class="resumen-item">
-                                <span class="resumen-label">Por revisar</span>
-                                <span class="resumen-numero" id="countPorRevisar">0</span>
-                            </div>
-                        </div> -->
-                        <div class="solicitud-derecha">
+                        </div>
+
+                        <!-- Contenedor de solicitudes generales (oculto por defecto) -->
+                        <div id="solicitudesGeneralesContainer" style="display: none;">
                             <div class="kit-header">
-                                <h3>Documentos para Liberación</h3>
+                                <h3>Lista de Solicitudes de Liberación</h3>
+                                <button class="pill pill-ghost" onclick="toggleSolicitudesGenerales()">Regresar a Documentos</button>
                             </div>
-                            <div class="doc-table-wrap" style="margin-top: 10px;">
-                                <table class="doc-table solicitud-table" id="tablaSolicitud">
+                            <div class="doc-table-wrap">
+                                <table class="doc-table" id="tablaSolicitudesGenerales">
                                     <thead>
                                         <tr>
-                                            <th style="min-width:140px;">Documento</th>
                                             <th style="min-width:60px;">Ver</th>
-                                            <th style="min-width:80px;">Validar</th>
-                                            <th style="min-width:120px;">Estado</th>
-                                            <th style="min-width:180px;">Observaciones</th>
-                                            <th style="min-width:100px;">Foto</th>
-                                            <th style="min-width:140px;">Comentario</th>
+                                            <th style="min-width:100px;">No. Crédito</th>
+                                            <th style="min-width:160px;">Nombre del Cliente</th>
+                                            <th style="min-width:120px;">Fecha de Desembolso</th>
+                                            <th style="min-width:140px;">Fecha de Solicitud de Liberación</th>
+                                            <th style="min-width:100px;">Monto</th>
+                                            <th style="min-width:80px;">Plazo</th>
+                                            <th style="min-width:120px;">Producto</th>
+                                            <th style="min-width:120px;">Sucursal</th>
+                                            <th style="min-width:120px;">Ejecutivo</th>
+                                            <th style="min-width:120px;">Distribuidor</th>
+                                            <th style="min-width:110px;">Estatus</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="solicitudBody">
-                                        <!-- Filas generadas por JS -->
+                                    <tbody id="solicitudesGeneralesBody">
+                                        <!-- Generado por JS -->
                                     </tbody>
                                 </table>
                             </div>
@@ -1232,7 +1269,7 @@
             </main>
 
             <!-- ===== STAGE SIDEBAR ===== -->
-            <aside class="stages">
+            <aside class="stages" id="stageSidebar">
                 <button class="stage-btn stage-active" onclick="cambiarVista('Decisiones')">Decisiones</button>
                 <button class="stage-btn" id="btnCargaDocumentos" onclick="cambiarVista('Carga de Documentos')">Carga de
                     Documentos</button>

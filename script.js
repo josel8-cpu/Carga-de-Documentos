@@ -510,15 +510,15 @@ document.addEventListener('DOMContentLoaded', function () {
        7. CARGA DE DOCUMENTOS - VISTA Y FUNCIONALIDAD
     --------------------------------------------------------- */
     var DOCUMENTOS_DATA = [
-        { id: 1, nombre: 'Identificación Oficial*', archivo: '', comentario: '' },
-        { id: 2, nombre: 'CURP*', archivo: '', comentario: '' },
-        { id: 3, nombre: 'RFC*', archivo: '', comentario: '' },
+        { id: 1, nombre: 'Identificación Oficial', archivo: '', comentario: '' },
+        { id: 2, nombre: 'CURP', archivo: '', comentario: '' },
+        { id: 3, nombre: 'RFC', archivo: '', comentario: '' },
         { id: 4, nombre: 'Acta de Nacimiento', archivo: '', comentario: '' },
-        { id: 5, nombre: 'Comprobante de Domicilio*', archivo: '', comentario: '' },
+        { id: 5, nombre: 'Comprobante de Domicilio', archivo: '', comentario: '' },
         { id: 6, nombre: 'Permiso de Circulación', archivo: '', comentario: '' },
         { id: 7, nombre: 'Autorizacion para Consulta en Sociedades Crediticias', archivo: '', comentario: '' },
-        { id: 8, nombre: 'Reporte de Circulo de Crédito Cliente*', archivo: '', comentario: '' },
-        { id: 9, nombre: 'Reporte Fotografico y visita domiciliar*', archivo: '', comentario: '' },
+        { id: 8, nombre: 'Reporte de Circulo de Crédito Cliente', archivo: '', comentario: '' },
+        { id: 9, nombre: 'Reporte Fotografico y visita domiciliar', archivo: '', comentario: '' },
         { id: 10, nombre: 'Estado de Cuenta ASEFIMEX', archivo: '', comentario: '' }
     ];
 
@@ -1809,7 +1809,76 @@ document.addEventListener('DOMContentLoaded', function () {
                 b.classList.add('stage-active');
             }
         });
+        // Asegurar que se muestre la vista de documentos (no la tabla general)
+        var docsContainer = document.getElementById('solicitudDocumentosContainer');
+        var generalContainer = document.getElementById('solicitudesGeneralesContainer');
+        if (docsContainer) docsContainer.style.display = 'block';
+        if (generalContainer) generalContainer.style.display = 'none';
+        // Mostrar el sidebar
+        var sidebar = document.getElementById('stageSidebar');
+        if (sidebar) sidebar.style.display = 'flex';
         renderSolicitud();
+    };
+
+    /* ============================================================
+       FUNCIÓN PARA ALTERNAR SOLICITUDES GENERALES
+       ============================================================ */
+    window.toggleSolicitudesGenerales = function () {
+        var docsContainer = document.getElementById('solicitudDocumentosContainer');
+        var generalContainer = document.getElementById('solicitudesGeneralesContainer');
+        var sidebar = document.getElementById('stageSidebar');
+        if (!docsContainer || !generalContainer) return;
+
+        if (generalContainer.style.display === 'none' || generalContainer.style.display === '') {
+            // Mostrar tabla general, ocultar documentos y sidebar
+            docsContainer.style.display = 'none';
+            generalContainer.style.display = 'block';
+            if (sidebar) sidebar.style.display = 'none';
+            // Renderizar datos de la tabla general (si no se ha hecho)
+            renderSolicitudesGenerales();
+        } else {
+            // Regresar a documentos, mostrar sidebar
+            docsContainer.style.display = 'block';
+            generalContainer.style.display = 'none';
+            if (sidebar) sidebar.style.display = 'flex';
+        }
+    };
+
+    // Datos de ejemplo para la tabla de solicitudes generales
+    var SOLICITUDES_GENERALES = [
+        { credito: '10001', cliente: 'Juan Pérez', fechaDesembolso: '2025-01-15', fechaSolicitud: '2025-01-10', monto: 150000, plazo: 12, producto: 'Crédito Auto', sucursal: 'Sucursal Norte', ejecutivo: 'Carlos García', distribuidor: 'Distribuidor A', estatus: 'Liberado' },
+        { credito: '10002', cliente: 'María Gómez', fechaDesembolso: '2025-01-20', fechaSolicitud: '2025-01-18', monto: 200000, plazo: 18, producto: 'Crédito Hipotecario', sucursal: 'Sucursal Sur', ejecutivo: 'Laura Martínez', distribuidor: 'Distribuidor B', estatus: 'En proceso' },
+        { credito: '10003', cliente: 'Pedro Fernández', fechaDesembolso: '2025-02-01', fechaSolicitud: '2025-01-28', monto: 80000, plazo: 9, producto: 'Crédito Personal', sucursal: 'Sucursal Este', ejecutivo: 'Roberto López', distribuidor: 'Distribuidor C', estatus: 'Observado' },
+        { credito: '10004', cliente: 'Ana Torres', fechaDesembolso: '2025-02-10', fechaSolicitud: '2025-02-05', monto: 300000, plazo: 24, producto: 'Crédito Empresarial', sucursal: 'Sucursal Oeste', ejecutivo: 'Marta Reyes', distribuidor: 'Distribuidor D', estatus: 'Liberado' },
+        { credito: '10005', cliente: 'Luis Ramírez', fechaDesembolso: '2025-02-20', fechaSolicitud: '2025-02-15', monto: 120000, plazo: 15, producto: 'Crédito Auto', sucursal: 'Sucursal Norte', ejecutivo: 'Carlos García', distribuidor: 'Distribuidor A', estatus: 'Pendiente' }
+    ];
+
+    function renderSolicitudesGenerales() {
+        var tbody = document.getElementById('solicitudesGeneralesBody');
+        if (!tbody) return;
+        tbody.innerHTML = '';
+        SOLICITUDES_GENERALES.forEach(function (solicitud) {
+            var tr = document.createElement('tr');
+            tr.innerHTML = '\
+                        <td><button class="btn-icon" onclick="verDetalleSolicitud(\'' + solicitud.credito + '\')">👁️</button></td>\
+                        <td>' + solicitud.credito + '</td>\
+                        <td>' + solicitud.cliente + '</td>\
+                        <td>' + solicitud.fechaDesembolso + '</td>\
+                        <td>' + solicitud.fechaSolicitud + '</td>\
+                        <td>$' + solicitud.monto.toLocaleString('es-MX') + '</td>\
+                        <td>' + solicitud.plazo + '</td>\
+                        <td>' + solicitud.producto + '</td>\
+                        <td>' + solicitud.sucursal + '</td>\
+                        <td>' + solicitud.ejecutivo + '</td>\
+                        <td>' + solicitud.distribuidor + '</td>\
+                        <td><span style="font-weight:600; color: ' + (solicitud.estatus === 'Liberado' ? 'var(--green)' : solicitud.estatus === 'Observado' ? 'var(--orange)' : 'var(--accent)') + ';">' + solicitud.estatus + '</span></td>\
+                    ';
+            tbody.appendChild(tr);
+        });
+    }
+
+    window.verDetalleSolicitud = function (credito) {
+        alert('Ver detalle de la solicitud con No. Crédito: ' + credito + '\n(Simulación)');
     };
 
     window.mostrarDictamen(); // Vista inicial
