@@ -774,9 +774,6 @@ document.addEventListener('DOMContentLoaded', function () {
                         <td style="text-align: center;">\
                             <button class="btn-icon" onclick="verPago(' + pago.id + ')" title="Ver documento">👁️</button>\
                         </td>\
-                        <td style="text-align: center;">\
-                            <button class="btn-icon" onclick="guardarPagoDocumento(' + pago.id + ')" title="Guardar documento">💾</button>\
-                        </td>\
                         <td style="text-align: left;">\
                             <input type="text" class="doc-comment" id="pagoComment_' + pago.id + '" placeholder="Agregar comentario..." value="' + (pago.comentario || '') + '" onchange="guardarPagoComentario(' + pago.id + ', this.value)">\
                         </td>\

@@ -425,7 +425,7 @@
                  <!-- ---- CARGA DE DOCUMENTOS  ---- -->
                 <section class="card" id="cargaDocumentos" hidden>
                     <div class="card-header">
-                        <h2><span class="card-icon">📄</span> Carga de Documentos</h2>
+                        <h2><span class="card-icon">📄</span> Carga de Documentos (cabe mencionar que debe estar el historico)</h2>
                     </div>
 
                     <!-- Solicitante -->
@@ -527,20 +527,16 @@
                                         <th style="min-width: 140px;">Documento</th>
                                         <th style="min-width: 180px;">Nombre del archivo</th>
                                         <th style="min-width: 60px; text-align: center;">Ver</th>
-                                        <th style="min-width: 140px; text-align: center;">Guardar Documento</th>
                                         <th style="min-width: 160px;">Comentarios</th>
                                         <th style="min-width: 150px; text-align: center;">Aplicar Pago</th>
                                         <th style="min-width: 150px; text-align: center;">Cancelar Pago</th>
-                                        <th style="min-width: 130px; text-align: center;">Estatus</th>
+                                        <th style="min-width: 130px; text-align: center;">Estatus (Cambiar dependiendo el boton))</th>
                                     </tr>
                                 </thead>
                                 <tbody id="pagosTableBody">
                                     <!-- Filas generadas por JS -->
                                 </tbody>
                             </table>
-                        </div>
-                        <div class="actions-row" style="margin-top: 20px;">
-                            <button class="btn-save" onclick="guardarPagos()">Guardar Pagos</button>
                         </div>
                     </div>
                 </section>
@@ -973,6 +969,21 @@
                 <section class="card" id="valuacion" hidden>
                     <div class="card-header">
                         <h2><span class="card-icon"></span> Valuación</h2>
+                        <div class="field span-2">
+                                <label>Lleva Valuación</label>
+                                <div style="display:flex; gap:20px; padding-top:4px;">
+                                    <label
+                                        style="display:flex; align-items:center; gap:6px; cursor:pointer; color:var(--text-main);">
+                                        <input type="radio" name="aplicaEstimacion" value="Sí"
+                                            style="accent-color: var(--accent);"> Sí
+                                    </label>
+                                    <label
+                                        style="display:flex; align-items:center; gap:6px; cursor:pointer; color:var(--text-main);">
+                                        <input type="radio" name="aplicaEstimacion" value="No"
+                                            style="accent-color: var(--accent);"> No
+                                    </label>
+                                </div>
+                            </div>
                     </div>
                     <div class="card-body">
                         <div class="field-grid cols-2">
@@ -1158,7 +1169,7 @@
                                 </div>
 
                                 <!-- Documentos Aval -->
-                                <!-- <h4 style="margin-top: 30px;">Documentos Aval</h4>
+                                <h4 style="margin-top: 30px;">Documentos Aval</h4>
                                 <div class="doc-table-wrap">
                                     <table class="doc-table kit-carga-table" id="tablaAval">
                                         <thead>
@@ -1171,9 +1182,9 @@
                                                 <th style="min-width:80px;">Histórico</th>
                                             </tr>
                                         </thead>
-                                        <tbody id="avalBody"></tbody>
+                                        <tbody id="acreditadoBody1"></tbody>
                                     </table>
-                                </div> -->
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1209,7 +1220,7 @@
                                 </div>
                                 <div class="solicitud-derecha">
                                     <div class="kit-header">
-                                        <h3>Documentos para Liberación</h3>
+                                        <h3>Documentos para Liberación (Debe de mandar a llamar todos los documentos que estan en la etapa de carga de documentos de Kit Legal)</h3>
                                     </div>
                                     <div class="doc-table-wrap" style="margin-top: 10px;">
                                         <table class="doc-table solicitud-table" id="tablaSolicitud">
@@ -1236,7 +1247,7 @@
                         <!-- Contenedor de solicitudes generales (oculto por defecto) -->
                         <div id="solicitudesGeneralesContainer" style="display: none;">
                             <div class="kit-header">
-                                <h3>Lista de Solicitudes de Liberación</h3>
+                                <h3>Lista de Solicitudes de Liberación (Filtrado como boton de prospectos en la parte superior y boton de exportar en excel)</h3>
                                 <button class="pill pill-ghost" onclick="toggleSolicitudesGenerales()">Regresar a Documentos</button>
                             </div>
                             <div class="doc-table-wrap">
@@ -1301,7 +1312,7 @@
                         </div>
                     </div>
                     <div class="modal-pregunta">
-                        <label>2. Monto autorizado por Comité</label>
+                        <label>2. Monto por aplicar</label>
                         <div class="modal-input-wrapper">
                             <span class="modal-currency-symbol">$</span>
                             <input type="text" class="modal-currency-input" id="montoAplicado" placeholder="0.00">
@@ -1342,7 +1353,7 @@
                     </div>
 
                     <div class="modal-pregunta">
-                        <label>6. Cuenta Receptora</label>
+                        <label>6. Cuenta Receptora (Agregar Cuentas Bancarias de la Entidad)</label>
                         <select class="modal-select" id="cuentaReceptora">
                             <option value="">Seleccione...</option>
                             <option value="bbva_001">BBVA - CTA-001</option>

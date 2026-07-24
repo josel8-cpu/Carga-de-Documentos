@@ -774,9 +774,6 @@ document.addEventListener('DOMContentLoaded', function () {
                         <td style="text-align: center;">\
                             <button class="btn-icon" onclick="verPago(' + pago.id + ')" title="Ver documento">👁️</button>\
                         </td>\
-                        <td style="text-align: center;">\
-                            <button class="btn-icon" onclick="guardarPagoDocumento(' + pago.id + ')" title="Guardar documento">💾</button>\
-                        </td>\
                         <td style="text-align: left;">\
                             <input type="text" class="doc-comment" id="pagoComment_' + pago.id + '" placeholder="Agregar comentario..." value="' + (pago.comentario || '') + '" onchange="guardarPagoComentario(' + pago.id + ', this.value)">\
                         </td>\
@@ -799,7 +796,6 @@ document.addEventListener('DOMContentLoaded', function () {
                                 <option value="pendiente" ' + (pago.estatus === 'pendiente' ? 'selected' : '') + '>Pendiente</option>\
                                 <option value="aplicado" ' + (pago.estatus === 'aplicado' ? 'selected' : '') + '>Aplicado</option>\
                                 <option value="cancelado" ' + (pago.estatus === 'cancelado' ? 'selected' : '') + '>Cancelado</option>\
-                                <option value="revision" ' + (pago.estatus === 'revision' ? 'selected' : '') + '>En Revisión</option>\
                             </select>\
                         </td>\
                     ';
@@ -948,12 +944,12 @@ document.addEventListener('DOMContentLoaded', function () {
         var fechaInput = document.getElementById('fechaAplicacion');
         if (fechaInput) {
             var hoy = new Date().toISOString().split('T')[0];
-            fechaInput.value = hoy;
+            fechaInput.value = '0000-00-00';
         }
         var fechaOperacion = document.getElementById('fechaOperacion');
         if (fechaOperacion) {
             var hoy2 = new Date().toISOString().split('T')[0];
-            fechaOperacion.value = hoy2;
+            fechaOperacion.value = '0000-00-00';
         }
         var formaPago = document.getElementById('formaPago');
         if (formaPago) formaPago.value = '';
@@ -1470,10 +1466,10 @@ document.addEventListener('DOMContentLoaded', function () {
     var VIDEO_DESEMBOLSO = ['VIDEO'];
     var DOCUMENTOS_GARANTIA = [
         'Factura', 'Carta Factura',
-        'Garantía Adicional 1', 'Garantía Adicional 2', 'Cotización del Seguro (mandar a llamar de carga de documentos)',
+        'Garantía Adicional 1', 'Garantía Adicional 2',
         'Póliza del Seguro', 'Comprobante de Pago del Seguro',
         'Pagaré de Distribuidor (cuando aplique)',
-        'Evidencia de instalación del GPS', 'Estado de Cuenta (mandar a llamar de carga de documentos)', 'Otros',
+        'Evidencia de instalación del GPS', 'Otros',
     ];
 
     var kitEstado = {};
@@ -1528,7 +1524,7 @@ document.addEventListener('DOMContentLoaded', function () {
         renderKitTabla('kitCargaBody', KIT_DOCUMENTOS);
         renderKitTabla('complementariosBody', COMPLEMENTARIOS);
         renderKitTabla('acreditadoBody', DOCUMENTOS_ACREDITADO);
-        renderKitTabla('avalBody', DOCUMENTOS_AVAL);
+        renderKitTabla('acreditadoBody1', DOCUMENTOS_ACREDITADO);
         renderKitTabla('videoBody', VIDEO_DESEMBOLSO);
         renderKitTabla('garantiaBody', DOCUMENTOS_GARANTIA);
     }
@@ -1654,7 +1650,7 @@ document.addEventListener('DOMContentLoaded', function () {
         'Fotos del Domicilio', 'Fotos de la Actividad', 'Comprobante de Ingresos',
         'Carta de Excepción a la Norma', 'Autorización de Consulta de Buró',
         'Identificacion Oficial Aval', 'CURP Aval', 'RFC Aval', 'Acta nacimiento aval',
-        'Comprobante domicilio aval', 'Arraigo Domiciliar Aval'
+        'Comprobante domicilio aval', 'Arraigo Domiciliar Aval', 'Estado de cuenta', 'Cotización de seguro'
     ];
 
     var solicitudEstado = {};
